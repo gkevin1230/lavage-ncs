@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Ajouter un conteneur</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+<?php include("header.php"); ?>
+
     <div class="container">
         <h1>Ajouter un conteneur</h1>
         <form action="ajouter.php" method="post">
