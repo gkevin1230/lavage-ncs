@@ -46,5 +46,5 @@
             <button type="submit" class="btn btn-primary">Ajouter</button>
         </form>
     </div>
-</body>
-</html>
+
+<?php include 'footer.php'; ?>

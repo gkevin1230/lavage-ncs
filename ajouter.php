@@ -49,5 +49,4 @@ $conn->close();
     <a href="index.php" class="btn btn-primary">Retour à la recherche</a>
 </div>
 
-</body>
-</html>
+<?php include 'footer.php'; ?>
