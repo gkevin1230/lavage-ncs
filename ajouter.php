@@ -42,11 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["num_serie"])) {
 $conn->close();
 ?>
 
-<div class="container">
-    <div class="alert <?php echo $feedback_class; ?>" role="alert">
-        <?php echo $feedback_message; ?>
+<div class="container mx-auto mt-10">
+    <div class="w-full sm:w-3/4 md:w-1/2 mx-auto">
+        <div class="bg-<?php echo $feedback_class === 'alert-success' ? 'green' : 'red'; ?>-100 border border-<?php echo $feedback_class === 'alert-success' ? 'green' : 'red'; ?>-400 text-<?php echo $feedback_class === 'alert-success' ? 'green' : 'red'; ?>-700 px-4 py-3 rounded relative mb-6" role="alert">
+            <span class="block sm:inline"><?php echo $feedback_message; ?></span>
+        </div>
     </div>
-    <a href="index.php" class="btn btn-primary">Retour à la recherche</a>
-</div>
+</div>   
 
 <?php include 'footer.php'; ?>
