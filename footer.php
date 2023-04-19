@@ -8,5 +8,7 @@
         </a>
     </div>
 <?php endif; ?>
+
+<script src="js/custom-scripts.js"></script>
 </body>
 </html>
