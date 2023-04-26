@@ -7,6 +7,7 @@ function validateDate($date) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["num_serie"])) {
+    $action = $_POST["action"];
     $num_serie = $_POST["num_serie"];
     $num_client = $_POST["num_client"];
     $derniere_epreuve = $_POST["derniere_epreuve"];
@@ -23,16 +24,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["num_serie"])) {
         throw new Exception("Les dates fournies ne sont pas valides.");
     }
 
-    $sql = "INSERT INTO conteneur (num_serie, num_client, derniere_epreuve, marques, ref_client, constat_dechargement, 1ere_circulation, poids, capacite, ep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    if ($action === 'add') {
+        $sql = "INSERT INTO conteneur (num_serie, num_client, derniere_epreuve, marques, ref_client, constat_dechargement, 1ere_circulation, poids, capacite, ep) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    } else {
+        $sql = "UPDATE conteneur SET num_serie=?, num_client=?, derniere_epreuve=?, marques=?, ref_client=?, constat_dechargement=?, 1ere_circulation=?, poids=?, capacite=?, ep=? WHERE num_serie=?";
+    }
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssss", $num_serie, $num_client, $derniere_epreuve, $marques, $ref_client, $constat_dechargement, $premiere_circulation, $poids, $capacite, $ep);
+    if ($action === 'add') {
+        $stmt->bind_param("ssssssssss", $num_serie, $num_client, $derniere_epreuve, $marques, $ref_client, $constat_dechargement, $premiere_circulation, $poids, $capacite, $ep);
+    } else {
+        $stmt->bind_param("sssssssssss", $num_serie, $num_client, $derniere_epreuve, $marques, $ref_client, $constat_dechargement, $premiere_circulation, $poids, $capacite, $ep, $num_serie);
+    }
+
     $stmt->execute();
 
     $feedback_class = "";
     $feedback_message = "";
     if ($stmt->affected_rows > 0) {
         $feedback_class = "alert-success";
-        $feedback_message = "Le conteneur a été ajouté avec succès.";
+        $feedback_message = $action === 'add' ? "Le conteneur a été ajouté avec succès." : "Le conteneur a été modifié avec succès.";
     } else {
         $feedback_class = "alert-danger";
         $feedback_message = "Erreur: " . $stmt->error;
@@ -49,5 +60,4 @@ $conn->close();
         </div>
     </div>
 </div>   
-
 <?php include 'footer.php'; ?>
